@@ -46,6 +46,6 @@ jobs:
           context: .
           push: true
           tags: |
-              henriqueholtz/fullcycle-gitops:${{ github.sha }}
-              henriqueholtz/fullcycle-gitops:latest
+              aminbh/gateway:${{ github.sha }}
+              aminbh/gateway:latest
           labels: ${{ steps.meta.outputs.labels }}
