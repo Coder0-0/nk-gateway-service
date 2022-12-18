@@ -18,8 +18,8 @@ on:
     types: [published]
 
 jobs:
-  push_to_registry:
-    name: Push Docker image to Docker Hub
+  build_push_deploy:
+    name: Build Push and Deploy to EC2
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repo
@@ -49,10 +49,7 @@ jobs:
               aminbh/gateway:${{ github.sha }}
               aminbh/gateway:latest
           labels: ${{ steps.meta.outputs.labels }}
-  
-  deploy_to_ec2:
-    name: Deploy to EC2
-    steps:  
+   
       - name: Docker Pull & Run From Hub 
         uses: appleboy/ssh-action@master
         with:
