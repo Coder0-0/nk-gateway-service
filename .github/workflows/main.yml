@@ -49,3 +49,20 @@ jobs:
               aminbh/gateway:${{ github.sha }}
               aminbh/gateway:latest
           labels: ${{ steps.meta.outputs.labels }}
+  
+  deploy_to_ec2:
+    name: Deploy to EC2
+    steps:  
+      - name: Docker Pull & Run From Hub 
+        uses: appleboy/ssh-action@master
+        with:
+          host: ec2-52-22-205-36.compute-1.amazonaws.com
+          username: ghactions
+          key: ${{secrets.ACTION_PRIVATE_KEY}}
+          envs: GITHUB SHA
+          script: |
+            docker login --username ${{secrets.DOCKER_USERNAME}} --password ${{secrets.DOCKER_PASSWORD}}
+            docker pull ${{secrets.DOCKER_USERNAME}}/$REPO
+            docker stop gateway
+            docker rm gateway
+            docker run -dp 1337:1337 --network TEST --name gateway gateway
